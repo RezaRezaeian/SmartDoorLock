@@ -1,26 +1,91 @@
-<div class="container" id="container">
+<div #container class="container" id="container">
   <div class="form-container sign-up-container">
     <form action="" onsubmit="return false;">
-      <input type="text" placeholder="نام کاربری ..." class="userName" />
-      <input type="email" placeholder="ایمیل ..." class="email" /><input
+      <input
+        #userName
+        (input)="checkUserName($event)"
+        type="text"
+        placeholder="نام کاربری ..."
+        class="userName"
+      />
+      <div class="incorrecterror userNameError" [hidden]="userNameRegex">
+        نام کاربری باید حداقل 3 و حداکثر 15 کاراکتر باشد
+      </div>
+      <input
+        #userEmail
+        (input)="checkUserEmail($event)"
+        type="email"
+        placeholder="ایمیل ..."
+        class="email"
+      />
+      <div class="incorrecterror userNameError" [hidden]="userEmailRegex">
+        ایمیل اجباری است و نمیتوان آن را خالی گذاشت
+      </div>
+      <input
+        #password
+        (input)="checkUserPass($event)"
         type="password"
         placeholder="کلمه عبور ..."
         class="pass"
       />
-      <input type="date" class="birthday" />
-      <input type="text" class="codeMeli" placeholder="کد ملی ..." />
-      <button class="btn-reg submitBtn">عضویت</button>
+      <div class="incorrecterror userNameError" [hidden]="userPassRegex">
+        کلمه عبور باید ترکیبی از حروف و عدد باشد
+      </div>
+      <input
+        #userBirthDay
+        (input)="checkUserBirthday($event)"
+        type="date"
+        class="birthday"
+      />
+      <div class="incorrecterror userNameError" [hidden]="userBirthDayRegex">
+        سن شما باید بیشتر از 18 و حداکثر 80 باشد
+      </div>
+      <input
+        #userCodeMeli
+        (input)="checkUserCodeMeli($event)"
+        type="text"
+        class="codeMeli"
+        placeholder="کد ملی ..."
+      />
+      <div class="incorrecterror userNameError" [hidden]="userCodeMeliRegex">
+        کد ملی باید دقیقا 10 کاراکتر باشد
+      </div>
+      <button
+        (click)="
+          register(
+            userName.value,
+            userEmail.value,
+            userBirthDay.value,
+            userCodeMeli.value,
+            password.value
+          )
+        "
+        class="btn-reg submitBtn"
+      >
+        عضویت
+      </button>
     </form>
   </div>
   <div class="form-container sign-in-container">
     <form action="" onsubmit="return false;">
-      <input type="email" class="loginEmail" placeholder="ایمیل ..." /><input
+      <input
+        #email
+        type="email"
+        class="loginEmail"
+        placeholder="ایمیل ..."
+      /><input
+        #password
         type="password"
         class="loginPass"
         placeholder="کلمه عبور ..."
       />
       <a href="#">فراموشی کلمه عبور</a>
-      <button class="btn-login loginBtn">ورود</button>
+      <button
+        (click)="mmd(email.value, password.value)"
+        class="btn-login loginBtn"
+      >
+        ورود
+      </button>
     </form>
   </div>
   <div class="div overlay-container">
@@ -28,12 +93,16 @@
       <div class="overlay-panel overlay-left">
         <h1>خوش امدید</h1>
         <p>برای دسترسی به تمام امکانات سایت ابتدا در سایت لاگین نمایید</p>
-        <button class="ghost" id="signIn">ورود</button>
+        <button (click)="overlayLeft(container)" class="ghost" id="signIn">
+          ورود
+        </button>
       </div>
       <div class="overlay-panel overlay-right">
         <h1>خوش امدید</h1>
         <p>اگر عضو سایت نیستید در کمتر از 1 دقیقه عضو سایت شوید</p>
-        <button class="ghost" id="signUp">عضویت</button>
+        <button (click)="overlayRight(container)" class="ghost" id="signUp">
+          عضویت
+        </button>
       </div>
     </div>
   </div>
