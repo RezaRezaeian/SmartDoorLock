@@ -69,19 +69,22 @@
   <div class="form-container sign-in-container">
     <form action="" onsubmit="return false;">
       <input
-        #email
+        #loginemail
         type="email"
         class="loginEmail"
         placeholder="ایمیل ..."
       /><input
-        #password
+        #loginPassword
         type="password"
         class="loginPass"
         placeholder="کلمه عبور ..."
       />
+      <div class="incorrecterror userNameError" [hidden]="foundUser">
+        ایمیل یا کلمه عبور اشتباه است
+      </div>
       <a href="#">فراموشی کلمه عبور</a>
       <button
-        (click)="mmd(email.value, password.value)"
+        (click)="login(loginemail.value, loginPassword.value)"
         class="btn-login loginBtn"
       >
         ورود

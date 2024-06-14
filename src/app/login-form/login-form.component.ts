@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { users } from '../interface/app.interdace';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -10,38 +11,16 @@ import { AuthService } from '../auth.service';
   styleUrl: './login-form.component.css',
 })
 export class LoginFormComponent implements OnInit {
+  // global variable
   id: number = 0;
   name: string = '';
   password: string = '';
   email: string = '';
   birthday: string = '';
   codemeli: string = '';
-  // regex section
-  haveAtLeastOneNumber: RegExp = /\d/;
-  ThreeCharsRegex: RegExp = /^.{3,15}$/;
-  tenCharRegex: RegExp = /^.{10,10}$/;
-  haveAtLeastOneAlphabet: RegExp = /[a-z]/;
-  notEmptyInput: RegExp = /^[^]+$/;
-  userNameRegex: boolean = false;
-  userPassRegex: boolean = false;
-  userEmailRegex: boolean = false;
-  userBirthDayRegex: boolean = false;
-  userCodeMeliRegex: boolean = false;
-  passRegex = new RegExp(
-    `^(?=.*${this.haveAtLeastOneNumber.source})(?=.*${this.ThreeCharsRegex.source})(?=.*${this.haveAtLeastOneAlphabet.source})`
-  );
-  // regex section
-  constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {}
-
-  public overlayLeft(container: HTMLElement) {
-    container.classList.remove('right-panel-active');
-  }
-  public overlayRight(container: HTMLElement) {
-    container.classList.add('right-panel-active');
-  }
-  public mmd(email: string, password: string) {}
+  foundUser: Boolean = true;
+  // global variable
+  // arrays
   user: users[] = [
     {
       id: 1,
@@ -60,6 +39,8 @@ export class LoginFormComponent implements OnInit {
       codeMeli: '3861483041',
     },
   ];
+  // arrays
+  // objects
   person: any = {
     id: 0,
     name: '',
@@ -68,6 +49,51 @@ export class LoginFormComponent implements OnInit {
     birthday: '',
     codeMeli: '',
   };
+  // objects
+  // regex section
+  haveAtLeastOneNumber: RegExp = /\d/;
+  ThreeCharsRegex: RegExp = /^.{3,15}$/;
+  tenCharRegex: RegExp = /^.{10,10}$/;
+  haveAtLeastOneAlphabet: RegExp = /[a-z]/;
+  notEmptyInput: RegExp = /^[^]+$/;
+  userNameRegex: boolean = false;
+  userPassRegex: boolean = false;
+  userEmailRegex: boolean = false;
+  userBirthDayRegex: boolean = false;
+  userCodeMeliRegex: boolean = false;
+  passRegex = new RegExp(
+    `^(?=.*${this.haveAtLeastOneNumber.source})(?=.*${this.ThreeCharsRegex.source})(?=.*${this.haveAtLeastOneAlphabet.source})`
+  );
+  // regex section
+  // calculateAge function
+  calculateAge(dateString: string): number {
+    const date = new Date(dateString);
+    const today = new Date();
+    let year = today.getFullYear() - date.getFullYear();
+    let month = today.getMonth() - date.getMonth();
+    let day = today.getDate() - date.getDate();
+
+    // console.log(dateString);
+
+    if (month < 0 || (month === 0 && day < 0)) {
+      year--;
+    }
+
+    return year;
+  }
+  // calculateAge function
+
+  constructor(private authService: AuthService, private router: Router) {}
+  ngOnInit(): void {}
+  // handling overlay movement
+  public overlayLeft(container: HTMLElement) {
+    container.classList.remove('right-panel-active');
+  }
+  public overlayRight(container: HTMLElement) {
+    container.classList.add('right-panel-active');
+  }
+  // handling overlay movement
+  // check user data for regexs
   public checkUserName(e: Event) {
     this.name = (<HTMLInputElement>e.target).value;
     this.userNameRegex = this.ThreeCharsRegex.test(
@@ -87,10 +113,18 @@ export class LoginFormComponent implements OnInit {
     );
   }
   public checkUserBirthday(e: Event) {
-    this.password = (<HTMLInputElement>e.target).value;
+    this.birthday = (<HTMLInputElement>e.target).value;
+
     this.userBirthDayRegex = this.notEmptyInput.test(
       (<HTMLInputElement>e.target).value
     );
+    if (
+      this.calculateAge(this.birthday) < 18 ||
+      this.calculateAge(this.birthday) > 80 ||
+      !this.userBirthDayRegex
+    ) {
+      this.userBirthDayRegex = false;
+    }
   }
   public checkUserCodeMeli(e: Event) {
     this.codemeli = (<HTMLInputElement>e.target).value;
@@ -98,6 +132,8 @@ export class LoginFormComponent implements OnInit {
       (<HTMLInputElement>e.target).value
     );
   }
+  // check user data for regexs
+  // check user data for accept user
   public register(
     userName: string,
     userEmail: string,
@@ -113,9 +149,20 @@ export class LoginFormComponent implements OnInit {
       this.person.codeMeli = userCodeMeli;
       this.person.id = this.user.length + 1;
       this.user.push(this.person);
-      console.log(this.user);
     }
   }
+  // check user data for accept user
+  // check user data for login
+  public login(email: string, password: string) {
+    this.foundUser = false;
+    this.user.forEach((user) => {
+      if (user.email === email && user.password === password) {
+        this.router.navigate(['/doorInfo']);
+        this.foundUser = true;
+      }
+    });
+  }
+  // check user data for login
   // const loginBtn = document.querySelector(".loginBtn");
   // @ViewChild('loginBtn') loginBtn!: ElementRef;
   // const submitBtn = document.querySelector(".submitBtn");
