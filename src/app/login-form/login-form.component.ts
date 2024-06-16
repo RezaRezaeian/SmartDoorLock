@@ -157,8 +157,8 @@ export class LoginFormComponent implements OnInit {
     this.foundUser = false;
     this.user.forEach((user) => {
       if (user.email === email && user.password === password) {
-        this.router.navigate(['/doorInfo']);
         this.foundUser = true;
+        this.router.navigate(['/doorInfo']);
       }
     });
   }
