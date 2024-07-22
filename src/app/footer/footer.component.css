@@ -1,0 +1,17 @@
+.card-footer .card-body a{
+  color: yellow;
+}
+.card-footer .card-header h5{
+  color:#eee;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.card {
+  border: 1px solid #efefef;
+  padding: 10px;
+}
+.mt-20 {
+  margin-top: 20px;
+}

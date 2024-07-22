@@ -13,3 +13,9 @@ body,
   font-style: normal;
   font-weight: normal;
 }
+a {
+  text-decoration: none;
+}
+body {
+  background-color: #f1f2f6;
+}

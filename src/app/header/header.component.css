@@ -1,0 +1,17 @@
+ul.menu li {
+  display: inline;
+  padding: 10px;
+  line-height: 70px;
+  list-style-type: none;
+}
+ul.menu li a{
+  color: #eee;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.font {
+  width: 50px;
+  height: 50px;
+}
