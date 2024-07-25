@@ -7,6 +7,7 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { FooterComponent } from "./footer/footer.component";
 import { HeaderComponent } from "./header/header.component";
 import { LoginFormComponent } from "./login-form/login-form.component";
+import { DoorsListComponent } from './doors-list/doors-list.component';
 
 @Component({
     selector: 'app-root',
@@ -20,7 +21,8 @@ import { LoginFormComponent } from "./login-form/login-form.component";
         FontAwesomeModule,
         FooterComponent,
         HeaderComponent,
-        LoginFormComponent
+        LoginFormComponent,
+        DoorsListComponent
     ]
 })
 export class AppComponent {
