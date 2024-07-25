@@ -1,72 +1,65 @@
-<div
-  class="d-flex justify-content-center align-items-center"
-  style="height: 100vh"
->
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh">
   <div #container class="container" id="container">
     <!-- فرم ثبت نام -->
     <div class="form-container sign-up-container">
-      <form action="" onsubmit="return false;">
-        <input
-          #userName
-          (input)="checkUserName($event)"
-          type="text"
-          placeholder="نام کاربری ..."
-          class="userName"
-        />
-        <div class="incorrecterror userNameError" [hidden]="userNameRegex">
-          نام کاربری باید حداقل 3 و حداکثر 15 کاراکتر باشد
+      <form action="" [formGroup]="UserForm" (submit)="SignUp()">
+
+        <input type="text" id="floatingInput" class="form-control" [formControl]="UserForm.controls.fullName"
+          placeholder="نام کاربری" />
+        <div *ngIf="UserForm.controls.fullName.touched && UserForm.controls.fullName.touched">
+          <small
+            *ngIf="UserForm.controls.fullName.errors?.['minlength'] && !UserForm.controls.fullName.errors?.['pattern']"
+            class="incorrecterror userNameError" [hidden]="">
+            نام کاربری باید حداقل 3 و حداکثر 15 کاراکتر باشد
+          </small>
+          <small *ngIf="UserForm.controls.fullName.errors?.['required']" class="incorrecterror userNameError">
+            نام کاربری اجباری است!
+          </small>
+          <small *ngIf="UserForm.controls.fullName.errors?.['pattern']" class="incorrecterror userNameError">
+            فقط از حروف استفاده شود
+          </small>
         </div>
-        <input
-          #userEmail
-          (input)="checkUserEmail($event)"
-          type="email"
-          placeholder="ایمیل ..."
-          class="email"
-        />
-        <div class="incorrecterror userNameError" [hidden]="userEmailRegex">
-          ایمیل اجباری است و نمیتوان آن را خالی گذاشت
+
+        <input #userEmail [formControl]="UserForm.controls.email" type="email" placeholder="ایمیل ..." class="email"
+          name="email" [email]="true" />
+        <div *ngIf="UserForm.controls.email.invalid && UserForm.controls.email.touched">
+          <small *ngIf="UserForm.controls.email.errors?.['required']" class="incorrecterror userNameError" [hidden]="">
+            ایمیل اجباری است و نمیتوان آن را خالی گذاشت
+          </small>
+          <small *ngIf="UserForm.controls.email.errors?.['pattern']" class="incorrecterror userNameError">
+            فرمت ایمیل اشتباه است
+          </small>
         </div>
-        <input
-          #password
-          (input)="checkUserPass($event)"
-          type="password"
-          placeholder="کلمه عبور ..."
-          class="pass"
-        />
-        <div class="incorrecterror userNameError" [hidden]="userPassRegex">
-          کلمه عبور باید ترکیبی از حروف و عدد باشد
+
+        <input #password [formControl]="UserForm.controls.password" type="password" placeholder="کلمه عبور ..."
+          class="pass" />
+        <div *ngIf="UserForm.controls.password.invalid && UserForm.controls.password.touched">
+          <small *ngIf="UserForm.controls.password.errors?.['pattern']" class="incorrecterror userNameError"
+            [hidden]="">
+            کلمه عبور باید ترکیبی از حروف بزرگ و کوچک و عدد باشد
+          </small>
+          <small *ngIf="UserForm.controls.password.errors?.['required']" class="incorrecterror userNameError">
+            پسورد را وارد کنید
+          </small>
         </div>
-        <input
-          #userBirthDay
-          (input)="checkUserBirthday($event)"
-          type="date"
-          class="birthday"
-        />
-        <div class="incorrecterror userNameError" [hidden]="userBirthDayRegex">
-          سن شما باید بیشتر از 18 و حداکثر 80 باشد
+        <input #userPhone [formControl]="UserForm.controls.phone" type="text" class="birthday"
+          placeholder="شماره تلفن" />
+        <div *ngIf="UserForm.controls.phone.invalid && UserForm.controls.phone.touched">
+          <small *ngIf="UserForm.controls.phone.errors?.['pattern']" class="incorrecterror userNameError" [hidden]="">
+            شماره فقط باید عدد باشد
+          </small>
+          <small *ngIf="UserForm.controls.phone.errors?.['required']" class="incorrecterror userNameError">
+            شماره تلفن را وارد کنید
+          </small>
         </div>
-        <input
-          #userCodeMeli
-          (input)="checkUserCodeMeli($event)"
-          type="text"
-          class="codeMeli"
-          placeholder="کد ملی ..."
-        />
-        <div class="incorrecterror userNameError" [hidden]="userCodeMeliRegex">
-          کد ملی باید دقیقا 10 کاراکتر باشد
+        <input #userCodeMeli [formControl]="UserForm.controls.codeMeli" type="text" class="codeMeli"
+          placeholder="کد ملی ..." />
+        <div *ngIf="UserForm.controls.codeMeli.invalid && UserForm.controls.codeMeli.touched">
+          <small *ngIf="UserForm.controls.codeMeli.invalid" class="incorrecterror userNameError" [hidden]="">
+            کد ملی باید دقیقا 10 کاراکتر باشد
+          </small>
         </div>
-        <button
-          (click)="
-            register(
-              userName.value,
-              userEmail.value,
-              userBirthDay.value,
-              userCodeMeli.value,
-              password.value
-            )
-          "
-          class="btn-reg submitBtn"
-        >
+        <button type="submit" class="btn-reg submitBtn mb-2">
           عضویت
         </button>
       </form>
@@ -74,25 +67,21 @@
     <!-- فرم ثبت نام -->
     <!-- فرم ورود -->
     <div class="form-container sign-in-container">
-      <form action="" onsubmit="return false;">
-        <input
-          #loginemail
-          type="email"
-          class="loginEmail"
-          placeholder="ایمیل ..."
-        /><input
-          #loginPassword
-          type="password"
-          class="loginPass"
-          placeholder="کلمه عبور ..."
-        />
-        <div class="incorrecterror userNameError" [hidden]="foundUser">
-          ایمیل یا کلمه عبور اشتباه است
+      <form action="" (submit)="Login()" [formGroup]="LoginForm">
+        <input type="email" class="loginEmail" placeholder="...کد ملی" formControlName="codeMeli" />
+        <div *ngIf="LoginForm.controls.codeMeli.invalid && LoginForm.controls.codeMeli.touched">
+          <small *ngIf="LoginForm.controls.codeMeli.errors?.['required']" class="incorrecterror userNameError">
+            کدملی را وارد کنید
+          </small>
         </div>
-        <button
-          (click)="login(loginemail.value, loginPassword.value)"
-          class="btn-login loginBtn mt-3"
-        >
+        <input #loginPassword type="password" class="loginPass" placeholder="کلمه عبور ..."
+          formControlName="password" />
+        <div *ngIf="LoginForm.controls.password.invalid && LoginForm.controls.password.touched">
+          <small *ngIf="LoginForm.controls.codeMeli.errors?.['required']" class="incorrecterror userNameError">
+           کلمه عبور اشتباه است
+          </small>
+        </div>
+        <button type="submit" class="btn-login loginBtn mt-3">
           ورود
         </button>
       </form>
