@@ -1,17 +1,62 @@
-.card-footer .card-body a{
-  color: yellow;
+.footer {
+  padding: 20px 10px;
+  background-color: #234445; /* رنگ زمینه جدید */
+  color: #ecf0f1; /* رنگ متن */
+  font-size: 0.85em;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
-.card-footer .card-header h5{
-  color:#eee;
+
+.footer h5 {
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #ffd700; /* رنگ سر تیتر */
+  border-bottom: 1px solid #ecf0f1; /* خط زیر سر تیتر */
+  padding-bottom: 5px; /* فاصله از زیر لیست‌ها */
+  text-align: right; /* راست‌چین کردن عنوان */
 }
-a {
+
+.footer a {
   text-decoration: none;
-  color: black;
+  color: #ecf0f1;
+  transition: color 0.3s;
 }
-.card {
-  border: 1px solid #efefef;
-  padding: 10px;
+
+.footer a:hover {
+  color: #ffd700;
 }
-.mt-20 {
-  margin-top: 20px;
+
+.list-unstyled {
+  padding-left: 0;
+}
+
+.list-unstyled li {
+  margin: 5px 0;
+}
+
+.contact-info {
+  margin-bottom: 10px; /* فاصله بین اطلاعات تماس و شبکه‌های اجتماعی */
+}
+
+.social-media {
+  margin-top: 10px;
+  text-align: right; /* راست‌چین کردن نمادها */
+}
+
+.social-media a {
+  margin: 0 10px;
+  color: #ecf0f1;
+  font-size: 1.5em;
+  transition: color 0.3s;
+}
+
+.social-media a:hover {
+  color: #ffd700;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    text-align: center;
+  }
 }
